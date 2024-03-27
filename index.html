@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>natavajrus V2</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.png" type="image/png">
+</head>
+<body>
+
+<div class="topbar">
+    <center>
+        <img src="natavajrus.png">
+        <img src="v2.png" id="v2">
+    </center>
+</div>
+
+<button id="redirectButton">Redirect Button</button>
+<button id="button1">Button 1</button>
+<button id="button2">Button 2</button>
+
+<script>
+    const button1 = document.getElementById('button1');
+    const button2 = document.getElementById('button2');
+    const redirectButton = document.getElementById('redirectButton');
+
+    // event listeners for button clicks
+    button1.addEventListener('click', () => {
+        redirectButton.textContent = 'Redirect to Button 1';
+        redirectButton.onclick = function() {
+            window.location.href = 'https://example.com/button1';
+        };
+    });
+    button2.addEventListener('click', () => {
+        redirectButton.textContent = 'Redirect to Button 2';
+        redirectButton.onclick = function() {
+            window.location.href = 'https://example.com/button2';
+        };
+    });
+</script>
+
+</body>
+</html>

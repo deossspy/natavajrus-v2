@@ -50,26 +50,3 @@ String pictureUrl = (String) payload.get("picture");
 String locale = (String) payload.get("locale");
 String familyName = (String) payload.get("family_name");
 String givenName = (String) payload.get("given_name");
-
-@RestController
-public class GitHubAuthController {
-
-    @GetMapping("/login/github")
-    public String redirectToGitHubLogin(HttpServletResponse response) throws IOException {
-        String githubAuthUrl = "https://github.com/login/oauth/authorize" +
-                               "?client_id=516056401304-vk2dmd8l4vdc9s6rve882ec7iklq5olq.apps.googleusercontent.com" +
-                               "&redirect_uri=deossspy.github.io/natavajrus-v2/login" +
-                               "&scope=user";
-        response.sendRedirect(githubAuthUrl);
-        return null;
-    }
-
-    @GetMapping("/login/github/callback")
-    public String handleGitHubCallback(@RequestParam("code") String code) {
-        // Exchange code for access token
-        // Fetch user information from GitHub API
-        // Create user session
-        // Redirect user to the homepage or dashboard
-        return "redirect:/";
-    }
-}

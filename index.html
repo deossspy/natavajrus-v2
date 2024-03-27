@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-https://chat.openai.com/share/542c1e69-0fc4-4bc9-a62a-9e8f81f27174
-
-
-<html lang="en">
+<html itemscope itemtype="http://schema.org/Article">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,13 +19,66 @@ https://chat.openai.com/share/542c1e69-0fc4-4bc9-a62a-9e8f81f27174
 <button id="redirectButton">Redirect Button</button>
 <button id="button1">Button 1</button>
 <button id="button2">Button 2</button>
+<button id="signinButton">Sign in with Google</button>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+<script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
+
+<script>
+  var auth2; // Google Sign-In authentication object
+
+  function start() {
+    gapi.load('auth2', function() {
+      auth2 = gapi.auth2.init({
+        client_id: '516056401304-vk2dmd8l4vdc9s6rve882ec7iklq5olq.apps.googleusercontent.com',
+      });
+    });
+  }
+
+  // Attach event listener to the sign-in button
+  $('#signinButton').click(function() {
+    signIn();
+  });
+
+  // Function to initiate the sign-in process
+  function signIn() {
+    auth2.signIn().then(function(googleUser) {
+      var authResponse = googleUser.getAuthResponse();
+      signInCallback(authResponse);
+    });
+  }
+
+  // Define the callback function to handle the authorization response
+  function signInCallback(authResult) {
+    if (authResult['code']) {
+      $('#signinButton').hide(); // Hide sign-in button
+
+      // Send the authorization code to the server
+      $.ajax({
+        type: 'POST',
+        url: 'login.html',
+        headers: {
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        contentType: 'application/octet-stream; charset=utf-8',
+        success: function(result) {
+          // Handle or verify the server response
+        },
+        processData: false,
+        data: authResult['code']
+      });
+    } else {
+      // Handle sign-in error
+    }
+  }
+</script>
 
 <script>
     const button1 = document.getElementById('button1');
     const button2 = document.getElementById('button2');
     const redirectButton = document.getElementById('redirectButton');
 
-    // event listeners for button clicks
+    // Event listeners for button clicks
     button1.addEventListener('click', () => {
         redirectButton.textContent = 'Redirect to Button 1';
         redirectButton.onclick = function() {

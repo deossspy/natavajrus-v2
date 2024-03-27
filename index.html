@@ -10,16 +10,51 @@
 <body>
 
 <div class="topbar">
-    <center>
-        <img src="natavajrus.png">
-        <img src="v2.png" id="v2">
-    </center>
+  <img src="natavajrus.png">
+  <button class="logout"><a href="/login.html">Logout</a></button>
+  <div style="width: 100%; height: 1px; background-color: rgba(255, 255, 255, 0.137); margin-top: 1vh;"></div>
 </div>
+
+<div class="flex items-center justify-center h-screen bg-discord-gray text-white flex-col">
+  <div class="text-4xl mt-3 flex items-center font-medium" >
+      <img src='' id="avatar" class="rounded-full w-12 h-12 mr-3"/>
+      <div id="name"></div>
+  </div>
+</div>
+
+<script>
+window.onload = () => {
+const fragment = new URLSearchParams(window.location.hash.slice(1));
+const [accessToken, tokenType] = [fragment.get('access_token'), fragment.get('token_type')];
+
+if (!accessToken) {
+  window.location.href('/')
+}
+
+fetch('https://discord.com/api/users/@me', {
+headers: {
+  authorization: `${tokenType} ${accessToken}`,
+},
+})
+.then(result => result.json())
+.then(response => {
+  console.log(response);
+  const { username, discriminator, avatar, id} = response;
+  //set the welcome username string
+  document.getElementById('name').innerText = ` ${username}#${discriminator}`;
+
+  //set the avatar image by constructing a url to access discord's cdn
+  document.getElementById("avatar").src = `https://cdn.discordapp.com/avatars/${id}/${avatar}.jpg`;
+})
+.catch(console.error);
+
+
+};
+</script>
 
 <button id="redirectButton">Redirect Button</button>
 <button id="button1">Button 1</button>
 <button id="button2">Button 2</button>
-<button id="signinButton">Sign in with Google</button>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer></script>
@@ -72,6 +107,7 @@
     }
   }
 </script>
+
 
 <script>
     const button1 = document.getElementById('button1');
